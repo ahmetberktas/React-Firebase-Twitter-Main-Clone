@@ -1,11 +1,26 @@
 import React, { useState, useRef } from "react";
+import { toast } from "react-toastify";
+import Notification from "../notification/Notification";
 import { days, months, years } from "../constants/date";
+import { auth, provider } from "./../firebase/config";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithPopup,
+} from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const AuthPage = () => {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const registerRef = useRef(null);
   const loginRef = useRef(null);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const openRegister = () => {
     setIsRegisterOpen(true);
@@ -21,6 +36,104 @@ const AuthPage = () => {
 
   const closeLogin = () => {
     setIsLoginOpen(false);
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    /* Yeni Hesap Oluşturma */
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        toast.success("Kayıt Olma İşlemi Başarılı", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          closeButton: false,
+        });
+        closeRegister();
+        navigate("/main");
+      })
+      .catch((err) =>
+        toast.error(`Hata: ${err.message}`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          closeButton: false,
+        })
+      );
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    /* Hesapta Oturum Aç */
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        toast.success("Giriş Yapıldı", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          closeButton: false,
+        });
+        closeLogin();
+        navigate("/main");
+      })
+      .catch((err) =>
+        toast.error(`Hata: ${err.message}`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          closeButton: false,
+        })
+      );
+  };
+
+  const sendMail = () => {
+    /* Şifre Sıfırlama E-Postası */
+    sendPasswordResetEmail(auth, email).then(() => {
+      toast
+        .info("Email adresinize şifre sıfırlama bağlantısı gönderildi", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          closeButton: false,
+        })
+        .catch(() => {
+          toast.error("Mail Gönderilemedi", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            closeButton: false,
+          });
+        });
+    });
+  };
+
+  const loginWithGoogle = () => {
+    /* Google ile Giriş Yapma */
+    signInWithPopup(auth, provider).then(() => navigate("/main"));
   };
 
   return (
@@ -42,7 +155,10 @@ const AuthPage = () => {
             Hemen katıl.
           </h2>
 
-          <button className="flex items-center justify-center bg-white text-black rounded-full px-4 py-2 w-full max-w-xs md:max-w-md mb-3 shadow-md hover:bg-gray-200 transition duration-300">
+          <button
+            onClick={loginWithGoogle}
+            className="flex items-center justify-center bg-white text-black rounded-full px-4 py-2 w-full max-w-xs md:max-w-md mb-3 shadow-md hover:bg-gray-200 transition duration-300"
+          >
             <span>Google ile oturum açın</span>
             <img src="./google.png" alt="Google" className="h-6 w-6 ml-2" />
           </button>
@@ -120,7 +236,7 @@ const AuthPage = () => {
             </div>
 
             <div className="p-4 md:p-5 space-y-4">
-              <form className="space-y-4" action="#">
+              <form onSubmit={handleRegister} className="space-y-4">
                 <h1 className="font-bold text-3xl pb-2 text-center">
                   Hesabını Oluştur
                 </h1>
@@ -134,6 +250,7 @@ const AuthPage = () => {
                     placeholder="Email"
                     required
                     autoComplete="off"
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
 
@@ -146,6 +263,7 @@ const AuthPage = () => {
                     placeholder="Password"
                     required
                     autoComplete="off"
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
 
@@ -245,13 +363,14 @@ const AuthPage = () => {
             </div>
 
             <div className="p-4 md:p-5 space-y-4">
-              <form className="space-y-4" action="#">
+              <form onSubmit={handleLogin} className="space-y-4">
                 <h1 className="font-bold text-3xl pb-2 text-center">
                   X'e giriş yap
                 </h1>
 
                 <div className="text-center mb-6">
                   <button
+                    onClick={loginWithGoogle}
                     type="button"
                     className="flex items-center justify-center bg-white text-black rounded-full px-4 py-2 w-full max-w-xs md:max-w-md mx-auto shadow-md"
                   >
@@ -279,6 +398,7 @@ const AuthPage = () => {
                     placeholder="Email"
                     required
                     autoComplete="off"
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
 
@@ -291,11 +411,15 @@ const AuthPage = () => {
                     placeholder="Password"
                     required
                     autoComplete="off"
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
 
                 <div className="flex justify-between text-sm">
-                  <a href="#" className="text-blue-500 hover:underline">
+                  <a
+                    onClick={sendMail}
+                    className="text-blue-500 hover:underline cursor-pointer"
+                  >
                     Şifrenizi mi unuttunuz?
                   </a>
                 </div>
@@ -325,6 +449,8 @@ const AuthPage = () => {
           </div>
         </div>
       )}
+
+      <Notification />
     </>
   );
 };
