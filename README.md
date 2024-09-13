@@ -24,3 +24,4 @@
 - moment
 - uuid
 - firebase
+- @headlessui/react
