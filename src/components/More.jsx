@@ -20,7 +20,10 @@ const More = () => {
       </Popover.Button>
       <Popover.Panel className="w-[318px] absolute bottom-0 left-0 bg-black shadow-box rounded-xl overflow-hidden">
         {MoreMenu.map((more, index) => (
-          <button className="px-4 h-14 w-full transition-colors inline-flex items-center gap-5 hover:bg-[#eff3f41a]">
+          <button
+            key={index}
+            className="px-4 h-14 w-full transition-colors inline-flex items-center gap-5 hover:bg-[#eff3f41a]"
+          >
             <div className="w-[26.25px] h-[26.25px] relative">{more.icon}</div>
             <div className="pr-4 text-xl font-bold">{more.title}</div>
           </button>
