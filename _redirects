@@ -1,0 +1,8 @@
+# Giriş yapmamış kullanıcıları login ekranına yönlendir
+/main    /    302!
+
+# Giriş yapmış kullanıcıları ana sayfaya (main ekranına) yönlendir
+/    /main    302!
+
+# SPA yapısına uygun olarak, diğer yolları index.html'e yönlendir
+/*    /index.html    200
