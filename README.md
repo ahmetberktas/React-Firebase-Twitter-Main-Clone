@@ -25,3 +25,4 @@
 - uuid
 - firebase
 - @headlessui/react
+- react-use (hooks)
