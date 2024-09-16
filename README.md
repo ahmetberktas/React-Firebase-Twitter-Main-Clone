@@ -26,3 +26,4 @@
 - firebase
 - @headlessui/react
 - react-use (hooks)
+- millify

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
   const navigate = useNavigate();
   return (
-    <aside className="w-[275px] max-h-screen min-h-screen px-2 flex flex-col">
+    <aside className="w-[275px] max-h-screen min-h-screen px-2 flex flex-col sticky top-0">
       <div className="py-0.5">
         <Link
           to="/main"
