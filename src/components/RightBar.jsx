@@ -2,6 +2,7 @@ import React from "react";
 import Search from "./Search";
 import Premium from "./Premium";
 import Topics from "./Topics";
+import MoreFollow from "./MoreFollow";
 
 const RightBar = () => {
   return (
@@ -9,6 +10,7 @@ const RightBar = () => {
       <Search></Search>
       <Premium></Premium>
       <Topics></Topics>
+      <MoreFollow></MoreFollow>
     </aside>
   );
 };

@@ -9,7 +9,7 @@ const Premium = () => {
         geliri payı kazan.
       </p>
       <div className="self-start">
-        <button className="bg-[#1d9bf0] text-[15px] font-bold px-4 rounded-full h-[36px] hover:bg-[#1a8cd8] transition-colors">
+        <button className="bg-[#1d9bf0] text-[15px] font-bold px-4 rounded-full h-9 hover:bg-[#1a8cd8] transition-colors">
           Abone ol
         </button>
       </div>
