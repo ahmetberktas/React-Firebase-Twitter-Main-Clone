@@ -7,7 +7,7 @@ import { Popover } from "@headlessui/react";
 const Topics = () => {
   return (
     <>
-      <section className="bg-transparent mb-4 rounded-2xl border-[rgb(47,51,54)] border-[1px]">
+      <section className="bg-transparent overflow-hidden mb-4 rounded-2xl border-[rgb(47,51,54)] border-[1px]">
         <h5 className="py-3 px-4 text-xl font-extrabold leading-6 flex items-center text-[#e7e9ea]">
           İlgini çekebilecek gündemler
         </h5>
@@ -74,6 +74,9 @@ const Topics = () => {
               </Popover>
             </Link>
           ))}
+          <button className="h-[52px] flex items-center px-4 text-[15px] text-[#1d9bf0] transition-colors hover:bg-white/[0.03]">
+            Daha fazla göster
+          </button>
         </div>
       </section>
     </>
