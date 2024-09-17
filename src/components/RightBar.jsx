@@ -3,6 +3,7 @@ import Search from "./Search";
 import Premium from "./Premium";
 import Topics from "./Topics";
 import MoreFollow from "./MoreFollow";
+import Footer from "./Footer";
 
 const RightBar = () => {
   return (
@@ -11,6 +12,7 @@ const RightBar = () => {
       <Premium></Premium>
       <Topics></Topics>
       <MoreFollow></MoreFollow>
+      <Footer></Footer>
     </aside>
   );
 };
