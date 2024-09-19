@@ -6,7 +6,7 @@ import { auth } from "../firebase/config";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
-const Sidebar = () => {
+const Sidebar = ({ user }) => {
   const navigate = useNavigate();
   return (
     <aside className="w-[275px] max-h-screen min-h-screen px-2 flex flex-col sticky top-0">
@@ -22,10 +22,17 @@ const Sidebar = () => {
       <div className="mt-auto">
         <Popover className="relative">
           <Popover.Button className="my-3 p-3 rounded-full hover:bg-[#eff3f41a] w-full flex text-left items-center outline-none">
-            <img src="./avatar.jpg" className="w-10 h-10 rounded-full"></img>
+            <img
+              src={!user ? "./avatar.jpg" : user.photoURL}
+              className="w-10 h-10 rounded-full"
+            ></img>
             <div className="mx-3 text-[15px]">
-              <h6 className="font-bold leading-[20px]">fullname</h6>
-              <div className="text-[#71767b]">@username</div>
+              <h6 className="font-bold leading-[20px]">
+                {!user ? "fullname" : user.displayName}
+              </h6>
+              <div className="text-[#71767b]">
+                {!user ? "username" : user.displayName}
+              </div>
             </div>
           </Popover.Button>
           <Popover.Panel className="absolute bottom-full py-3 w-[300px] overflow-hidden left-1/2 -translate-x-1/2 bg-black shadow-box rounded-2xl">
@@ -35,11 +42,12 @@ const Sidebar = () => {
             <button
               onClick={() => {
                 signOut(auth);
-                Navigate("/");
+                navigate("/");
               }}
               className="py-3 px-4 text-left transition-colors hover:bg-[#eff3f41a] w-full text-[#e7e9ea] text-[15px] font-bold"
             >
-              @username hesabından çıkış yap
+              {!user ? "@username" : "@" + user.displayName} hesabından çıkış
+              yap
             </button>
           </Popover.Panel>
         </Popover>
