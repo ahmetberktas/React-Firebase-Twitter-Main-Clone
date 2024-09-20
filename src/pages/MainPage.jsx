@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/config";
 import Post from "../components/Post";
+import Form from "../components/Form";
 
 const MainPage = () => {
   const [user, setUser] = useState(null);
@@ -23,6 +24,7 @@ const MainPage = () => {
       <div className="flex-1 flex gap-[30px]">
         <main className="flex-1 max-w-[600px] border-x border-[#2f3336]">
           <Header title="Anasayfa"></Header>
+          <Form user={user}></Form>
           <Post></Post>
         </main>
         <RightBar></RightBar>
