@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useRef, useState } from "react";
+import EmojiPicker from "emoji-picker-react";
 
 const Form = ({ user }) => {
+  const fileInputRef = useRef(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [text, setText] = useState("");
+
+  const handleFileInputClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleEmojiClick = (emojiData) => {
+    setText(text + emojiData.emoji);
+    setShowEmojiPicker(false);
+  };
+
   return (
-    <form className="p-4 text-white space-y-4 border-b border-[#2f3336]">
+    <form className="p-4 text-white space-y-4 border-b border-[#2f3336] relative">
       <div className="flex items-start space-x-3">
         <img
           src={!user ? "./avatar.jpg" : user.photoURL}
           className="w-10 h-10 rounded-full"
         />
         <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           className="flex-1 bg-transparent border-none resize-none text-lg placeholder-gray-500 focus:outline-none"
           rows="2"
           placeholder="Neler oluyor?"
@@ -18,6 +36,7 @@ const Form = ({ user }) => {
       <div className="flex items-center justify-between ml-12">
         <div className="flex items-center space-x-3 text-blue-500">
           <svg
+            onClick={handleFileInputClick}
             viewBox="0 0 24 24"
             width={20}
             height={20}
@@ -51,6 +70,7 @@ const Form = ({ user }) => {
             ></path>
           </svg>
           <svg
+            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
             viewBox="0 0 24 24"
             width={20}
             height={20}
@@ -83,11 +103,23 @@ const Form = ({ user }) => {
               d="M12 7c-1.93 0-3.5 1.57-3.5 3.5S10.07 14 12 14s3.5-1.57 3.5-3.5S13.93 7 12 7zm0 5c-.827 0-1.5-.673-1.5-1.5S11.173 9 12 9s1.5.673 1.5 1.5S12.827 12 12 12zm0-10c-4.687 0-8.5 3.813-8.5 8.5 0 5.967 7.621 11.116 7.945 11.332l.555.37.555-.37c.324-.216 7.945-5.365 7.945-11.332C20.5 5.813 16.687 2 12 2zm0 17.77c-1.665-1.241-6.5-5.196-6.5-9.27C5.5 6.916 8.416 4 12 4s6.5 2.916 6.5 6.5c0 4.073-4.835 8.028-6.5 9.27z"
             ></path>
           </svg>
+
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            multiple
+          />
         </div>
         <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
           Gönder
         </button>
       </div>
+      {showEmojiPicker && (
+        <div className="absolute z-10 left-12">
+          <EmojiPicker onEmojiClick={handleEmojiClick} />
+        </div>
+      )}
     </form>
   );
 };

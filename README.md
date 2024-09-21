@@ -27,3 +27,4 @@
 - @headlessui/react
 - react-use (hooks)
 - millify
+- emoji-picker-react
