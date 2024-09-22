@@ -1,30 +1,28 @@
-# React Firebase Twitter Main Clone
+# React Firebase Twitter Clone
+
+Bu proje, React ve Firebase kullanarak oluşturulmuş bir Twitter klonudur. Uygulama, Firebase Authentication, Firestore Database ve Firestore Storage kullanarak kullanıcı kimlik doğrulama, veri depolama ve medya yükleme işlemlerini gerçekleştirmektedir.
 
 # Firebase Kullanım
 
-- Firebase Authentication (Email/Password, Google)
-- Firestore Database
-- Firestore Storage
+- **Kimlik Doğrulama (Authentication)**:
+  - Kullanıcılar e-posta/şifre veya Google hesapları ile giriş yapabilirler.
+- **Yetkilendirme (Authorization)**:
+  - Kullanıcıların belirli sayfalara veya işlevlere erişimi kontrol edilir.
+- **Firestore Database**:
+  - Kullanıcı bilgileri, gönderiler, yorumlar gibi veriler Firestore veritabanında saklanır.
+- **Firestore Storage**:
+  - Kullanıcıların yüklediği medya dosyaları Firestore Storage ile depolanır.
 
-# Authentication (Kimlik Doğrulama)
+## Kullanılan Teknolojiler
 
-- Authentication, kullanıcının kimliğini doğrulama sürecidir.
-- Email, şifre gibi bilgiler alınarak yapılabilir.
-- Farklı doğrulama yöntemleri örn:Google kullanılabilir.
-
-# Authorization (Yetkilendirme)
-
-- Authorization, kullanıcının sistemin kaynaklarına, işlevlerine veya sayfalarına erişimine izin verme/reddetme sürecidir.
-
-# Kütüphaneler
-
-- react-router-dom
-- tailwind
-- react-toastify
-- moment
-- uuid
-- firebase
-- @headlessui/react
-- react-use (hooks)
-- millify
-- emoji-picker-react
+- **React.js**: Kullanıcı arayüzünü oluşturmak için kullanılan kütüphane.
+- **React Router DOM**: Sayfa yönlendirmelerini yönetmek için kullanılır.
+- **Tailwind CSS**: Uygulama için esnek ve özelleştirilebilir bir stil arayüzü sağlar.
+- **React Toastify**: Kullanıcı bildirimleri ve uyarıları için kullanılır.
+- **Moment.js**: Zaman ve tarih formatlaması için kullanılır.
+- **UUID**: Tekil kimlikler oluşturmak için kullanılır.
+- **Firebase**: Kimlik doğrulama, veritabanı ve depolama işlemleri için kullanılır.
+- **@headlessui/react**: React ile uyumlu erişilebilir kullanıcı arayüz bileşenleri sağlar.
+- **React-use**: Sık kullanılan React hook'ları sağlar.
+- **Millify**: Büyük sayıların formatlanması için kullanılır (örneğin 1.5B).
+- **Emoji Picker React**: Emoji seçim bileşeni sağlar.
