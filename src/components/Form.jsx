@@ -8,6 +8,7 @@ const Form = ({ user }) => {
   const fileInputRef = useRef(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [text, setText] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFileInputClick = () => {
     if (fileInputRef.current) {
@@ -22,6 +23,8 @@ const Form = ({ user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
     const textContent = e.target[0].value;
     const imageFiles = e.target[1].files;
 
@@ -55,6 +58,7 @@ const Form = ({ user }) => {
     });
 
     setText("");
+    setIsSubmitting(false);
   };
 
   return (
@@ -158,9 +162,9 @@ const Form = ({ user }) => {
           className={`${
             text ? "bg-blue-500 hover:bg-blue-600" : "bg-blue-400"
           } text-white font-bold py-2 px-4 rounded-full`}
-          disabled={!text}
+          disabled={!text || isSubmitting}
         >
-          Gönder
+          {isSubmitting ? "Gönderiliyor..." : "Gönder"}
         </button>
       </div>
       {showEmojiPicker && (
