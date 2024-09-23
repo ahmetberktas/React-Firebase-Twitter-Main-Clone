@@ -1,5 +1,8 @@
 import React, { useRef, useState } from "react";
 import EmojiPicker from "emoji-picker-react";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { db, storage } from "../firebase/config";
 
 const Form = ({ user }) => {
   const fileInputRef = useRef(null);
@@ -17,8 +20,48 @@ const Form = ({ user }) => {
     setShowEmojiPicker(false);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const textContent = e.target[0].value;
+    const imageFiles = e.target[1].files;
+
+    const imageUrls = [];
+
+    /* Her bir resim doysası için Storage yükleme işlemi */
+    for (const file of imageFiles) {
+      const uniqueName = `${Date.now()}_${file.name}`;
+      const storageRef = ref(storage, `images/${uniqueName}`);
+      const snapshot = await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      imageUrls.push(downloadURL);
+    }
+
+    /* Kolleksiyon Referans Alma */
+    const tweetsCol = collection(db, "tweets");
+
+    /* Kolleksiyona Yeni Döküman Ekleme */
+    /* addDoc methodu async bir metotdur */
+    await addDoc(tweetsCol, {
+      textContent,
+      imageContent: imageUrls,
+      createdAt: serverTimestamp(),
+      user: {
+        id: user.uid,
+        name: user.displayName,
+        photo: user.photoURL,
+      },
+      likes: [],
+      isEdited: false,
+    });
+
+    setText("");
+  };
+
   return (
-    <form className="p-4 text-white space-y-4 border-b border-[#2f3336] relative">
+    <form
+      onSubmit={handleSubmit}
+      className="p-4 text-white space-y-4 border-b border-[#2f3336] relative"
+    >
       <div className="flex items-start space-x-3">
         <img
           src={!user ? "./avatar.jpg" : user.photoURL}
@@ -34,7 +77,7 @@ const Form = ({ user }) => {
       </div>
 
       <div className="flex items-center justify-between ml-12">
-        <div className="flex items-center space-x-3 text-blue-500">
+        <div className="flex items-center space-x-3 text-blue-400">
           <svg
             onClick={handleFileInputClick}
             viewBox="0 0 24 24"
@@ -111,7 +154,12 @@ const Form = ({ user }) => {
             multiple
           />
         </div>
-        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full">
+        <button
+          className={`${
+            text ? "bg-blue-500 hover:bg-blue-600" : "bg-blue-400"
+          } text-white font-bold py-2 px-4 rounded-full`}
+          disabled={!text}
+        >
           Gönder
         </button>
       </div>
