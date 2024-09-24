@@ -9,11 +9,18 @@ const Form = ({ user }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [text, setText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedImages, setSelectedImages] = useState([]);
 
   const handleFileInputClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
+  };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    const imageUrls = files.map((file) => URL.createObjectURL(file));
+    setSelectedImages(imageUrls);
   };
 
   const handleEmojiClick = (emojiData) => {
@@ -58,6 +65,7 @@ const Form = ({ user }) => {
     });
 
     setText("");
+    setSelectedImages([]);
     setIsSubmitting(false);
   };
 
@@ -78,6 +86,17 @@ const Form = ({ user }) => {
           rows="2"
           placeholder="Neler oluyor?"
         ></textarea>
+      </div>
+
+      <div className="ml-12 flex flex-wrap gap-2">
+        {selectedImages.map((src, index) => (
+          <img
+            key={index}
+            src={src}
+            alt={`selected ${index}`}
+            className="w-20 h-20 object-cover rounded-md"
+          />
+        ))}
       </div>
 
       <div className="flex items-center justify-between ml-12">
@@ -154,6 +173,7 @@ const Form = ({ user }) => {
           <input
             type="file"
             ref={fileInputRef}
+            onChange={handleFileChange}
             style={{ display: "none" }}
             multiple
           />
