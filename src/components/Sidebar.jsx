@@ -31,7 +31,11 @@ const Sidebar = ({ user }) => {
                 {!user ? "fullname" : user.displayName}
               </h6>
               <div className="text-[#71767b]">
-                {!user ? "username" : user.displayName}
+                {!user
+                  ? "username"
+                  : user.displayName
+                  ? user.displayName.toLowerCase().replace(" ", "_")
+                  : "username"}
               </div>
             </div>
           </Popover.Button>
@@ -46,8 +50,13 @@ const Sidebar = ({ user }) => {
               }}
               className="py-3 px-4 text-left transition-colors hover:bg-[#eff3f41a] w-full text-[#e7e9ea] text-[15px] font-bold"
             >
-              {!user ? "@username" : "@" + user.displayName} hesabından çıkış
-              yap
+              {!user
+                ? "@username"
+                : "@" +
+                  (user.displayName
+                    ? user.displayName.toLowerCase().replace(" ", "_")
+                    : "username")}{" "}
+              hesabından çıkış yap
             </button>
           </Popover.Panel>
         </Popover>

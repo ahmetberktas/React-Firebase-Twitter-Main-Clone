@@ -175,6 +175,7 @@ const Form = ({ user }) => {
             ref={fileInputRef}
             onChange={handleFileChange}
             style={{ display: "none" }}
+            accept="image/*"
             multiple
           />
         </div>

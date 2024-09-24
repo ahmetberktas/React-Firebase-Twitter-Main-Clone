@@ -1,29 +1,91 @@
 import React from "react";
+import { Popover } from "@headlessui/react";
 import { Link } from "react-router-dom";
+import moment from "moment/moment";
+import "moment/locale/tr";
+import { auth } from "../firebase/config";
 
-const Post = () => {
-  return (
-    <>
-      <div className="px-4 py-3 gap-3 border-b border-[#2f3336] flex hover:bg-white/[0.03]">
+const Post = ({ tweets }) => {
+  // Eğer tweets verisi yoksa veya bir dizi değilse, yükleniyor mesajını göster
+  if (!tweets || !Array.isArray(tweets)) {
+    return "Yükleniyor";
+  }
+
+  return tweets.map((tweet, index) => {
+    // Tweet atılma zamanını hesaplama
+    const date = tweet.createdAt
+      ? moment(tweet.createdAt.toDate()).fromNow()
+      : "birkaç saniye önce";
+
+    return (
+      <div
+        key={index}
+        className="px-4 py-3 gap-3 border-b border-[#2f3336] flex hover:bg-white/[0.03]"
+      >
         <img
-          src="./avatar.jpg"
+          src={
+            tweet.user && tweet.user.photo ? tweet.user.photo : "./avatar.jpg"
+          }
           className="w-10 h-10 rounded-full object-cover"
-        ></img>
+          alt="user"
+        />
+
         <div className="flex-1">
           <header className="leading-5 flex items-center gap-2 mb-0.5">
             <Link
               to="/main"
               className="hover:underline flex items-center font-bold"
             >
-              Ahmet BERKTAŞ
+              {tweet.user.name}
             </Link>
             <div className="text-[#71767b] flex items-center gap-2">
-              <div>@AhmetBerktas</div>
+              <div>
+                @
+                {tweet?.user?.name
+                  ? tweet.user.name.toLowerCase().replace(" ", "_")
+                  : "username"}
+              </div>
+
               <div className="w-0.5 h-0.5 rounded-full bg-[#71767b]"></div>
-              <div>1s</div>
+              <div>{date}</div>
             </div>
+            {tweet.user.id === auth.currentUser.uid && (
+              <Popover className="ml-auto relative">
+                <Popover.Button>
+                  <svg viewBox="0 0 24 24" width={20} height={20}>
+                    <path
+                      fill="#e7e9ea"
+                      d="M3.75 12c0-4.56 3.69-8.25 8.25-8.25s8.25 3.69 8.25 8.25-3.69 8.25-8.25 8.25S3.75 16.56 3.75 12zM12 1.75C6.34 1.75 1.75 6.34 1.75 12S6.34 22.25 12 22.25 22.25 17.66 22.25 12 17.66 1.75 12 1.75zm-4.75 11.5c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25S6 11.31 6 12s.56 1.25 1.25 1.25zm9.5 0c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25-1.25.56-1.25 1.25.56 1.25 1.25 1.25zM13.25 12c0 .69-.56 1.25-1.25 1.25s-1.25-.56-1.25-1.25.56-1.25 1.25-1.25 1.25.56 1.25 1.25z"
+                    ></path>
+                  </svg>
+                </Popover.Button>
+                <Popover.Panel className="w-[100px] absolute top-5 right-0 bg-black shadow-box rounded-xl overflow-hidden">
+                  <button className="px-4 h-10 w-full transition-colors inline-flex items-center gap-5 hover:bg-[#eff3f41a]">
+                    Sil
+                  </button>
+                </Popover.Panel>
+              </Popover>
+            )}
           </header>
-          <div>Atılan Post</div>
+
+          <div>
+            {tweet.textContent && <p>{tweet.textContent}</p>}
+
+            {tweet.imageContent && tweet.imageContent.length > 0 && (
+              <div className="grid grid-cols-2 gap-2 mt-2 mb-2">
+                {tweet.imageContent.map((image, index) => (
+                  <div key={index} className="w-full h-48">
+                    <img
+                      src={image}
+                      alt={`tweet image ${index}`}
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           <div className="flex -ml-1.5">
             <div className="flex-1 group flex items-center gap-px">
               <div className="w-[2.172rem] h-[2.172rem] flex items-center justify-center group-hover:bg-[#1d9bf0] rounded-full group-hover:text-[#1d9bf0]">
@@ -81,35 +143,11 @@ const Post = () => {
                 245 B
               </span>
             </div>
-            <div className="flex items-center gap-px">
-              <div className="group">
-                <div className="w-[2.172rem] h-[2.172rem] flex items-center justify-center group-hover:bg-[#1d9bf0] rounded-full group-hover:text-[#1d9bf0]">
-                  <svg viewBox="0 0 24 24" className="h-[1.172rem]">
-                    <path
-                      className="group-hover:fill-[#fff]"
-                      fill="#71767b"
-                      d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-              <div className="group">
-                <div className="w-[2.172rem] h-[2.172rem] flex items-center justify-center group-hover:bg-[#1d9bf0] rounded-full group-hover:text-[#1d9bf0]">
-                  <svg viewBox="0 0 24 24" className="h-[1.172rem]">
-                    <path
-                      className="group-hover:fill-[#fff]"
-                      fill="#71767b"
-                      d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"
-                    ></path>
-                  </svg>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-    </>
-  );
+    );
+  });
 };
 
 export default Post;
