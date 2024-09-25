@@ -3,9 +3,20 @@ import { Popover } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import moment from "moment/moment";
 import "moment/locale/tr";
-import { auth } from "../firebase/config";
+import { auth, db } from "../firebase/config";
+import { deleteDoc, doc } from "firebase/firestore";
 
 const Post = ({ tweets }) => {
+  /* Tweet Delete */
+  const handleDelete = async (tweetId) => {
+    try {
+      const tweetRef = doc(db, "tweets", tweetId);
+      await deleteDoc(tweetRef);
+    } catch (error) {
+      console.error("Error deleting tweet:", error);
+    }
+  };
+
   // Eğer tweets verisi yoksa veya bir dizi değilse, yükleniyor mesajını göster
   if (!tweets || !Array.isArray(tweets)) {
     return "Yükleniyor";
@@ -60,7 +71,10 @@ const Post = ({ tweets }) => {
                   </svg>
                 </Popover.Button>
                 <Popover.Panel className="w-[100px] absolute top-5 right-0 bg-black shadow-box rounded-xl overflow-hidden">
-                  <button className="px-4 h-10 w-full transition-colors inline-flex items-center gap-5 hover:bg-[#eff3f41a]">
+                  <button
+                    onClick={() => handleDelete(tweet.id)}
+                    className="px-4 h-10 w-full transition-colors inline-flex items-center gap-5 hover:bg-[#eff3f41a]"
+                  >
                     Sil
                   </button>
                 </Popover.Panel>
