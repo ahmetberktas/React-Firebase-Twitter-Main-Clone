@@ -4,7 +4,14 @@ import { Link } from "react-router-dom";
 import moment from "moment/moment";
 import "moment/locale/tr";
 import { auth, db } from "../firebase/config";
-import { arrayUnion, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  arrayRemove,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import Spinner from "./Spinner";
 
 const Post = ({ tweets }) => {
   /* Tweet Delete */
@@ -21,17 +28,23 @@ const Post = ({ tweets }) => {
   const handleLike = async (tweet) => {
     try {
       const likeRef = doc(db, "tweets", tweet.id);
-      await updateDoc(likeRef, {
-        likes: arrayUnion(auth.currentUser.uid),
-      });
+      if (tweet.likes.includes(auth.currentUser.uid)) {
+        await updateDoc(likeRef, {
+          likes: arrayRemove(auth.currentUser.uid),
+        });
+      } else {
+        await updateDoc(likeRef, {
+          likes: arrayUnion(auth.currentUser.uid),
+        });
+      }
     } catch (error) {
-      console.error("Error liking tweet:", error);
+      console.error("Error liking/unliking tweet:", error);
     }
   };
 
   // Eğer tweets verisi yoksa veya bir dizi değilse, yükleniyor mesajını göster
   if (!tweets || !Array.isArray(tweets)) {
-    return "Yükleniyor";
+    return <Spinner></Spinner>;
   }
 
   return tweets.map((tweet, index) => {
