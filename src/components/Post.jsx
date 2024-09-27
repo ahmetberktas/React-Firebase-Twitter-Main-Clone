@@ -72,14 +72,14 @@ const Post = ({ tweets }) => {
               to="/main"
               className="hover:underline flex items-center font-bold"
             >
-              {tweet.user.name}
+              {tweet?.user?.name ? tweet.user.name : "John Doe"}
             </Link>
             <div className="text-[#71767b] flex items-center gap-2">
               <div>
                 @
                 {tweet?.user?.name
                   ? tweet.user.name.toLowerCase().replace(" ", "_")
-                  : "username"}
+                  : "johndoe"}
               </div>
 
               <div className="w-0.5 h-0.5 rounded-full bg-[#71767b]"></div>
