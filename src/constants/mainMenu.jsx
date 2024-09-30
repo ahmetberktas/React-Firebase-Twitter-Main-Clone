@@ -12,7 +12,7 @@ export const mainMenu = [
     ),
   },
   {
-    path: "/",
+    path: "/main",
     title: "Keşfet",
     icon: (
       <svg viewBox="0 0 24 24" width={26.25} height={26.25} className="block">
@@ -24,7 +24,7 @@ export const mainMenu = [
     ),
   },
   {
-    path: "/",
+    path: "/main",
     title: "Bildirimler",
     notification: 2,
     icon: (
@@ -37,7 +37,7 @@ export const mainMenu = [
     ),
   },
   {
-    path: "/",
+    path: "/main",
     title: "Mesajlar",
     notification: 3,
     icon: (
@@ -50,7 +50,7 @@ export const mainMenu = [
     ),
   },
   {
-    path: "/",
+    path: "/main",
     title: "Grok",
     icon: (
       <svg viewBox="0 0 24 24" width={26.25} height={26.25} className="block">
@@ -66,7 +66,7 @@ export const mainMenu = [
     ),
   },
   {
-    path: "/",
+    path: "/main",
     title: "Yer İşaretleri",
     icon: (
       <svg viewBox="0 0 24 24" width={26.25} height={26.25} className="block">
@@ -78,7 +78,7 @@ export const mainMenu = [
     ),
   },
   {
-    path: "/",
+    path: "/main",
     title: "Topluluklar",
     icon: (
       <svg viewBox="0 0 24 24" width={26.25} height={26.25} className="block">
@@ -90,7 +90,7 @@ export const mainMenu = [
     ),
   },
   {
-    path: "/",
+    path: "/main",
     title: "Premium",
     icon: (
       <svg viewBox="0 0 24 24" width={26.25} height={26.25} className="block">
@@ -102,7 +102,7 @@ export const mainMenu = [
     ),
   },
   {
-    path: "/",
+    path: "/main",
     title: "Onaylı Kuruluşlar",
     icon: (
       <svg viewBox="0 0 24 24" width={26.25} height={26.25} className="block">
@@ -114,7 +114,7 @@ export const mainMenu = [
     ),
   },
   {
-    path: "/",
+    path: "/main",
     title: "Profil",
     icon: (
       <svg viewBox="0 0 24 24" width={26.25} height={26.25} className="block">
