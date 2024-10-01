@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { mainMenu } from "../constants/mainMenu";
 import More from "./More";
 
@@ -17,14 +17,15 @@ const Menu = () => {
               )}
               {menu.icon}
             </div>
-            <div className="pr-4 text-xl">{menu.title}</div>
+            <div className="pr-4 text-xl hidden md:block">{menu.title}</div>
           </div>
         </NavLink>
       ))}
-      <More></More>
-      <div className="py-4 w-[90%]">
-        <button className="bg-[#1d9bf0] text-[15px] font-bold px-4 flex items-center justify-center rounded-full h-[52px] w-full hover:bg-[#1a8cd8] transition-colors">
-          Gönder
+      <More />
+      <div className="py-4 w-full md:w-[90%]">
+        <button className="bg-[#1d9bf0] text-[15px] font-bold px-4 flex items-center justify-center rounded-full ml-1.5 h-[40px] w-[40px] hover:bg-[#1a8cd8] transition-colors md:h-[52px] md:w-full">
+          <span className="hidden md:block">Gönder</span>
+          <span className="block md:hidden text-2xl">+</span>
         </button>
       </div>
     </nav>

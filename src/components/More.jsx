@@ -15,7 +15,7 @@ const More = () => {
               ></path>
             </svg>
           </div>
-          <div className="pr-4 text-xl">Daha Fazla</div>
+          <div className="pr-4 text-xl hidden md:block">Daha Fazla</div>
         </div>
       </Popover.Button>
       <Popover.Panel className="w-[318px] absolute bottom-0 left-0 bg-black shadow-box rounded-xl overflow-hidden">
