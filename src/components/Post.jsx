@@ -137,7 +137,7 @@ const Post = ({ tweets }) => {
                 </svg>
               </div>
               <span className="text-[0.813rem] text-[#71767b] group-hover:text-[#1d9bf0]">
-                13.7 B
+                3.7 B
               </span>
             </div>
             <div className="flex-1 group flex items-center gap-px">

@@ -48,7 +48,7 @@ const MainPage = () => {
   }, []);
 
   return (
-    <div className="w-[1265px] mx-auto flex">
+    <div className="w-full md:w-[1265px] mx-auto flex">
       <Sidebar user={user}></Sidebar>
       <div className="flex-1 flex gap-[30px]">
         <main className="flex-1 max-w-[600px] border-x border-[#2f3336]">
@@ -56,7 +56,9 @@ const MainPage = () => {
           <Form user={user}></Form>
           <Post tweets={tweets}></Post>
         </main>
-        <RightBar></RightBar>
+        <div className="hidden md:block">
+          <RightBar></RightBar>
+        </div>
       </div>
     </div>
   );
